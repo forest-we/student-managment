@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useUserStore } from '@/stores/user'
+import { ElMessage } from 'element-plus'
 const student = axios.create({
   baseURL: 'http://localhost:4300/admin',
   timeout: 5000,
@@ -23,10 +24,19 @@ student.interceptors.response.use(
     return response
   },
   function (error) {
+    if (!error.response) {
+      ElMessage.error('网络异常,等待互联网连接')
+    }
     if (error.response?.status === 401) {
       const userStore = useUserStore()
       userStore.logout()
       window.location.href = '/login'
+    }
+    if (error.response?.status === 500) {
+      ElMessage.error('服务器出了问题')
+    }
+    if (error.response?.status === 403) {
+      ElMessage.error('你没权限进行操作')
     }
     return Promise.reject(error)
   },

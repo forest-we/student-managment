@@ -63,7 +63,7 @@ const ruleForm = ref({
 })
 
 const rules = ref<FormRules<typeof ruleForm>>({
-  name: [{ required: true, message: '请输入学生名', trigger: 'blur'}],
+  name: [{ required: true, message: '请输入学生名', trigger: 'blur' }],
   gender: [{ required: true, message: '请输入性别', trigger: 'blur' }],
   age: [
     { required: true, message: '请输入年龄', trigger: 'blur' },
@@ -73,21 +73,18 @@ const rules = ref<FormRules<typeof ruleForm>>({
 })
 
 const submitForm = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
   try {
-    if (!formEl) return
-    formEl.validate(async (valid) => {
-      if (valid) {
-        await student.put(`/student/${ruleForm.value.id}`, ruleForm.value)
-        dialog.value = false
-        ElMessage({
-          message: '修改完成',
-          type: 'success',
-        })
-        emit('on-update')
-        console.log('submit!')
-      }
+    await formEl.validate() // 校验不通过会抛异常，通过则继续往下
+    await student.put(`/student/${ruleForm.value.id}`, ruleForm.value)
+    dialog.value = false
+    ElMessage({
+      message: '修改完成',
+      type: 'success',
     })
+    emit('on-update')
   } catch {
+    dialog.value = false
     ElMessage.error('修改时出了问题,稍后再试')
   }
 }

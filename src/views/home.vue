@@ -59,11 +59,11 @@ const student = async () => {
     const res = await studentas.get('/student')
     users.value = res.data.data
   } catch {
-    ElMessage.error('Oops, this is a error message.')
+    ElMessage.error('服务器出了点问题')
     router.push('/login')
   }
 }
-//调用子组件open时传递row参数   调用修改弹窗
+//调用子组件open时传递row参数 子组件通过defineExpose暴露弹窗调用方式  调用修改弹窗，弹窗组件完成修改再通过defineEmits子传父组件调用父组件刷新完成修改
 const onEdif = (row: any) => {
   editRef.value.open(row)
 }
@@ -93,7 +93,7 @@ const user = async () => {
   }
   try {
     const res = await studentas.post('/search', { name: input3.value })
-  
+
     users.value = res.data.data // 搜索结果覆盖到同一个表格
   } catch {
     ElMessage.error('搜索失败')

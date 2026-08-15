@@ -31,8 +31,10 @@
 <script lang="ts" setup>
 const onkil = ref(false)
 import { reactive, ref } from 'vue'
-import type { FormInstance, FormRules } from 'element-plus'
+import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import student from '@/utils/admin'
+import { useUserStore } from '@/stores/user'
+const userStore = useUserStore()
 const emli = defineEmits(['on-uupp'])
 const ruleFormRef = ref<FormInstance>()
 const oopn = () => {
@@ -46,6 +48,9 @@ const ruleForm = ref({
   gender: '',
   classroom: '',
 })
+if (userStore.role === 'admin') {
+  ruleForm.value.classroom = '管理员测试数据'
+}
 const rules = reactive<FormRules<typeof ruleForm>>({
   name: [{ required: true, message: '不好好写学生名是这样的', trigger: 'blur' }],
   gender: [{ required: true, message: '性别有问题', trigger: 'blur' }],
@@ -58,13 +63,19 @@ const rules = reactive<FormRules<typeof ruleForm>>({
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate(async (valid) => {
-    if (valid) {
-      console.log('submit!')
-      await student.post('/student', ruleForm.value)
-      onkil.value = false
-      emli('on-uupp')
-    } else {
-      console.log('error submit!')
+    try {
+      if (valid) {
+        console.log('submit!')
+        const res = await student.post('/student', ruleForm.value)
+        if (res.data.code === 200) {
+          onkil.value = false
+          emli('on-uupp')
+        }
+      } else {
+        console.log('error submit!')
+      }
+    } catch {
+      ElMessage.error('新增学生时出现错误')
     }
   })
 }
