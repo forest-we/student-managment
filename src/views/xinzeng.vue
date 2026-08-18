@@ -70,6 +70,10 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         if (res.data.code === 200) {
           onkil.value = false
           emli('on-uupp')
+          ElMessage({
+            message: '新增成功',
+            type: 'success',
+          })
         }
       } else {
         console.log('error submit!')
