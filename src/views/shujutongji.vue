@@ -1,8 +1,13 @@
 <template>
   <h1>你好,这里是数据统计</h1>
-  <el-form-item label="学生数量">
-    <h2>{{ studentlength }}</h2>
-  </el-form-item>
+  <el-card style="max-width: 430px">
+    <template #header>
+      <div class="card-header">
+        <span>目前已知学生总数量</span>
+      </div>
+    </template>
+    <p>{{ studentlength }}</p>
+  </el-card>
 </template>
 
 <script setup lang="ts">

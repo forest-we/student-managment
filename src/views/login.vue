@@ -14,7 +14,7 @@
     <input type="password" placeholder="密码" v-model="form.password" />
   </div>
   <div>
-    <el-button @click="userr">登录</el-button>
+    <el-button v-loading.fullscreen.lock="" @click="userr">登录</el-button>
   </div>
   <div>
     <el-button @click="register" type="primary" plain>成为教师</el-button>
@@ -26,13 +26,19 @@ import { useUserStore } from '@/stores/user'
 const userStore = useUserStore()
 import router from '@/router'
 import { ElMessage } from 'element-plus'
-
+import { ElLoading } from 'element-plus'
 const form = ref({
   username: '',
   password: '',
 })
 const erro = ref('')
+
 const userr = async () => {
+  const loading = ElLoading.service({
+    lock: true,
+    text: 'ローディング',
+    background: 'rgba(0, 0, 0, 0.7)',
+  })
   try {
     if (!form.value.username || !form.value.password) {
       erro.value = '账号密码都是空的,你乱按什么?'
@@ -42,13 +48,21 @@ const userr = async () => {
       erro.value = '账号密码有问题,让你乱输入'
     }
     if (userStore.userCode === 200) {
-      alert('欢迎你,' + userStore.userInfo.username)
+      ElMessage({
+        message: '欢迎你,' + userStore.userInfo.username,
+        type: 'success',
+      })
       router.push('/')
     }
   } catch (err) {
     ElMessage.error('哇哦,兄弟好像出了点问题')
     console.log(err)
+  } finally {
+    loading.close()
   }
+  setTimeout(() => {
+    loading.close()
+  }, 2000)
 }
 
 const register = () => {

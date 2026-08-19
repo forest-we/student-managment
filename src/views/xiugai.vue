@@ -23,7 +23,9 @@
     </el-form>
     <template #footer>
       <el-button @click="dialog = false">取消</el-button>
-      <el-button type="primary" @click="submitForm(ruleFormRef)">确认</el-button>
+      <el-button v-loading.fullscreen.lock="loading" type="primary" @click="submitForm(ruleFormRef)"
+        >确认</el-button
+      >
     </template>
   </el-dialog>
 </template>
@@ -32,9 +34,11 @@
 import { reactive, ref } from 'vue'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import student from '@/utils/admin'
+import { ElLoading } from 'element-plus'
 import { useUserStore } from '@/stores/user'
 const userStore = useUserStore()
 const dialog = ref(false)
+const loading = ref(false)
 const emit = defineEmits(['on-update'])
 const open = (row: any) => {
   if (String(userStore.userID) !== String(row.user_id) && userStore.role !== 'admin') {
@@ -74,6 +78,7 @@ const rules = ref<FormRules<typeof ruleForm>>({
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
+  loading.value = true
   try {
     await formEl.validate() // 校验不通过会抛异常，通过则继续往下
     await student.put(`/student/${ruleForm.value.id}`, ruleForm.value)
@@ -86,6 +91,11 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   } catch {
     dialog.value = false
     ElMessage.error('修改时出了问题,稍后再试')
+  } finally {
+    loading.value = false
   }
 }
+setTimeout(() => {
+  loading.value = false
+}, 2000)
 </script>

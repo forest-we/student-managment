@@ -1,7 +1,9 @@
 <template>
   <h1 v-if="useTuichu.role === 'admin'">你好,管理员</h1>
   <h1 v-else-if="useTuichu.role !== 'admin'">你好,首页</h1>
-  <el-button @click="getStudentList()">刷新</el-button>
+  <el-button v-loading.fullscreen.lock="fullscreenLoading" @click="getStudentList()"
+    >刷新</el-button
+  >
   <el-button type="primary" @click="onOpnn()">新增学生</el-button>
   <el-button large @click="useTuichu.logout()" type="primary">退出登录</el-button>
 
@@ -14,9 +16,11 @@
     placeholder="搜索姓名"
     :prefix-icon="Search"
   />
-  <el-button @click="user" type="info" plain>搜索</el-button>
+  <el-button v-loading.fullscreen.lock="fullscreenLoading" @click="user" type="info" plain
+    >搜索</el-button
+  >
   <div class="app">
-    <el-table :data="tableData">
+    <el-table v-loading="fullscreenLoading" :data="tableData">
       <el-table-column label="学生ID" prop="id"></el-table-column>
       <el-table-column label="姓名" prop="name"></el-table-column>
       <el-table-column label="年龄" prop="age"></el-table-column>
@@ -54,9 +58,9 @@ import xinzeng from './xinzeng.vue'
 import { useUserStore } from '@/stores/user'
 import xiugai from './xiugai.vue'
 import { ElPagination } from 'element-plus'
-import router from '@/router/index.ts'
 import Shanchu from './shanchu.vue'
 import { ElMessage } from 'element-plus'
+import { ElLoading } from 'element-plus'
 const useTuichu = useUserStore()
 const editRef = ref<any>(null)
 const edit = ref<any>(null)
@@ -100,6 +104,7 @@ const user = async () => {
     getStudentList() // 空关键字 → 重新拉全部
     return
   }
+  fullscreenLoading.value = true
   try {
     const res = await studentas.post(
       '/search',
@@ -115,14 +120,17 @@ const user = async () => {
     tableData.value = res.data.data // 搜索结果覆盖到同一个表格
   } catch {
     ElMessage.error('搜索失败')
+  } finally {
+    fullscreenLoading.value = false
   }
 }
 const page = ref(1)
 const limin = ref(5)
 const tableData = ref([])
 const total = ref(0)
-
+const fullscreenLoading = ref(false)
 const getStudentList = async () => {
+  fullscreenLoading.value = true
   try {
     const res = await studentas.get('/paging', {
       params: {
@@ -137,8 +145,13 @@ const getStudentList = async () => {
     console.log('total:', total.value)
   } catch {
     ElMessage.error('网络不可用,请稍后再试')
+  } finally {
+    fullscreenLoading.value = false
   }
 }
+setTimeout(() => {
+  fullscreenLoading.value = false
+}, 2000)
 const changePage = (newPage: any) => {
   page.value = newPage
   getStudentList()

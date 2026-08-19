@@ -23,13 +23,19 @@
     </el-form>
     <template #footer>
       <el-button @click="onkil = false">取消</el-button>
-      <el-button type="primary" @click="submitForm(ruleFormRef)">确认</el-button>
+      <el-button
+        v-loading.fullscreen.lock="appLoading"
+        type="primary"
+        @click="submitForm(ruleFormRef)"
+        >确认</el-button
+      >
     </template>
   </el-dialog>
 </template>
 
 <script lang="ts" setup>
 const onkil = ref(false)
+import { ElLoading } from 'element-plus'
 import { reactive, ref } from 'vue'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import student from '@/utils/admin'
@@ -60,9 +66,11 @@ const rules = reactive<FormRules<typeof ruleForm>>({
   ],
   classroom: [{ required: true, message: '班级没写', trigger: 'blur' }],
 })
+const appLoading = ref(false)
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate(async (valid) => {
+    appLoading.value = true
     try {
       if (valid) {
         console.log('submit!')
@@ -80,9 +88,15 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       }
     } catch {
       ElMessage.error('新增学生时出现错误')
+    } finally {
+      appLoading.value = false
     }
   })
 }
+
+setTimeout(() => {
+  appLoading.value = false
+}, 2000)
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.resetFields()

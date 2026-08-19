@@ -8,9 +8,21 @@ import { useUserStore } from '@/stores/user'
 const userStore = useUserStore()
 const faLse = ref(false)
 const eali = defineEmits(['on-upda'])
+import { ElLoading } from 'element-plus'
+const load = () => {
+  const loading = ElLoading.service({
+    lock: true,
+    text: 'ローディング',
+    background: 'rgba(0, 0, 0, 0.7)',
+  })
+  setTimeout(() => {
+    loading.close()
+  }, 2000)
+}
+
 const openm = (row: any) => {
   try {
-    // 身份校验：这条学生记录关联的 user.id 是不是我
+    // 身份校验：这条学生记录关联的 user.id 是否属于该用户
     if (String(userStore.userID) !== String(row.user_id) && userStore.role !== 'admin') {
       faLse.value = false
       ElMessage.error('你要干嘛?这学生是你的吗?')
@@ -27,6 +39,7 @@ const openm = (row: any) => {
           type: 'success',
           message: '执行成功',
         })
+        load()
         await student.delete(`/student/${row.id}`)
         eali('on-upda')
         faLse.value = false
@@ -42,5 +55,6 @@ const openm = (row: any) => {
     alert('出了点问题' + err)
   }
 }
+
 defineExpose({ openm })
 </script>
