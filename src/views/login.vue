@@ -44,7 +44,7 @@ const userr = async () => {
       erro.value = '账号密码都是空的,你乱按什么?'
     }
     await userStore.login(form.value)
-    if (userStore.userCode === 401) {
+    if (userStore.userCode === 400) {
       erro.value = '账号密码有问题,让你乱输入'
     }
     if (userStore.userCode === 200) {

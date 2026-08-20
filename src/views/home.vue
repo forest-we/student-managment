@@ -26,6 +26,7 @@
       <el-table-column label="年龄" prop="age"></el-table-column>
       <el-table-column label="性别" prop="gender"></el-table-column>
       <el-table-column label="年级班级" prop="classroom"></el-table-column>
+      <el-table-column label="学号" prop="student_no"></el-table-column>
       <el-table-column label="操作">
         <template #default="{ row }">
           <el-button @click="onEdif(row)" type="primary" :icon="Edit" circle />

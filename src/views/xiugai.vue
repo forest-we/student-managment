@@ -20,6 +20,9 @@
       <el-form-item label="年级班级" prop="classroom">
         <el-input v-model="ruleForm.classroom"></el-input>
       </el-form-item>
+      <el-form-item label="学号" prop="student_no">
+        <el-input v-model="ruleForm.student_no"></el-input>
+      </el-form-item>
     </el-form>
     <template #footer>
       <el-button @click="dialog = false">取消</el-button>
@@ -52,6 +55,7 @@ const open = (row: any) => {
   ruleForm.value.age = row.age
   ruleForm.value.id = row.id
   ruleForm.value.classroom = row.classroom
+  ruleForm.value.student_no = row.student_no
 }
 
 defineExpose({ open })
@@ -64,6 +68,7 @@ const ruleForm = ref({
   age: '',
   id: '',
   classroom: '',
+  student_no: '',
 })
 
 const rules = ref<FormRules<typeof ruleForm>>({
@@ -74,6 +79,7 @@ const rules = ref<FormRules<typeof ruleForm>>({
     { type: 'number', message: '你好好写年龄,必须是数字!', trigger: 'blur' },
   ],
   classroom: [{ required: true, message: '请输入班级', trigger: 'blur' }],
+  student_no: [{ required: true, message: '输入学号', trigger: 'blur' }],
 })
 
 const submitForm = async (formEl: FormInstance | undefined) => {

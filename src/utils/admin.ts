@@ -38,6 +38,9 @@ student.interceptors.response.use(
     if (error.response?.status === 403) {
       ElMessage.error('你没权限进行操作')
     }
+    if (error.response?.status === 400) {
+      ElMessage.error(error.response.data.message)
+    }
     return Promise.reject(error)
   },
 )
