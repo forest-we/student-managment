@@ -87,7 +87,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   loading.value = true
   try {
     await formEl.validate() // 校验不通过会抛异常，通过则继续往下
-    await student.put(`/student/${ruleForm.value.id}`, ruleForm.value)
+    await student.put(`admin/student/${ruleForm.value.id}`, ruleForm.value)
     dialog.value = false
     ElMessage({
       message: '修改完成',

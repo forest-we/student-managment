@@ -19,6 +19,9 @@
   <div>
     <el-button @click="register" type="primary" plain>成为教师</el-button>
   </div>
+  <div>
+    <el-button @click="studentL" type="primary" plain>学生登录</el-button>
+  </div>
 </template>
 <script lang="ts" setup>
 import { reactive, ref, computed, watch, onMounted, provide } from 'vue'
@@ -67,6 +70,9 @@ const userr = async () => {
 
 const register = () => {
   router.push('/register')
+}
+const studentL = () => {
+  router.push('/studentLogin')
 }
 </script>
 <style></style>

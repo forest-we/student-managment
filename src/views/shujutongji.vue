@@ -15,7 +15,7 @@ import student from '../utils/admin'
 import { computed, onMounted, ref } from 'vue'
 const studentData = ref([])
 const user = async () => {
-  const res = await student.get('/student')
+  const res = await student.get('admin/student')
   studentData.value = res.data.data
 }
 const studentlength = computed(() => {

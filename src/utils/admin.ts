@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useUserStore } from '@/stores/user'
 import { ElMessage } from 'element-plus'
 const student = axios.create({
-  baseURL: 'http://localhost:4300/admin',
+  baseURL: 'http://localhost:4300/',
   timeout: 5000,
 })
 
@@ -11,6 +11,8 @@ student.interceptors.request.use(
     const userStore = useUserStore()
     if (userStore.token) {
       config.headers.Authorization = `Bearer ${userStore.token}`
+    } else if (userStore.studentToken) {
+      config.headers.Authorization = `Bearer ${userStore.studentToken}`
     }
     return config
   },

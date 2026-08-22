@@ -40,7 +40,7 @@ const openm = (row: any) => {
           message: '执行成功',
         })
         load()
-        await student.delete(`/student/${row.id}`)
+        await student.delete(`admin/student/${row.id}`)
         eali('on-upda')
         faLse.value = false
       })

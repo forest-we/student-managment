@@ -1,11 +1,11 @@
 <template>
   <h1 v-if="useTuichu.role === 'admin'">你好,管理员</h1>
-  <h1 v-else-if="useTuichu.role !== 'admin'">你好,首页</h1>
+  <h1 v-if="useTuichu.role === 'normal'">你好,首页</h1>
+  <h1 v-else>你好,{{ useTuichu.studentName }}</h1>
   <el-button v-loading.fullscreen.lock="fullscreenLoading" @click="getStudentList()"
     >刷新</el-button
   >
   <el-button type="primary" @click="onOpnn()">新增学生</el-button>
-  <el-button large @click="useTuichu.logout()" type="primary">退出登录</el-button>
 
   <el-input
     large
@@ -133,7 +133,7 @@ const fullscreenLoading = ref(false)
 const getStudentList = async () => {
   fullscreenLoading.value = true
   try {
-    const res = await studentas.get('/paging', {
+    const res = await studentas.get('admin/paging', {
       params: {
         page: page.value,
         limin: limin.value,

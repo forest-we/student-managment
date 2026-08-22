@@ -4,6 +4,8 @@ import home from '@/views/home.vue'
 import course from '@/views/course.vue'
 import register from '@/views/register.vue'
 import shujutongji from '@/views/shujutongji.vue'
+import studentLogin from '@/views/studentLogin.vue'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -34,15 +36,22 @@ const router = createRouter({
       name: '数据统计',
       component: shujutongji,
     },
+    {
+      path: '/studentLogin',
+      name: '学生登录',
+      component: studentLogin,
+      meta: { showNav: false },
+    },
   ],
 })
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
+  const studentToken = localStorage.getItem('studentToken')
   const role = localStorage.getItem('role') || ''
-  const whiteList = ['/login', '/register']
+  const whiteList = ['/login', '/register', '/studentLogin']
 
   // 1. 未登录 → 白名单放行，其余踢到登录
-  if (!token) {
+  if (!token && !studentToken) {
     return whiteList.includes(to.path) ? next() : next('/login')
   }
 
