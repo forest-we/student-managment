@@ -1,7 +1,9 @@
 <template>
   <h1 v-if="useTuichu.role === 'admin'">你好,管理员</h1>
   <h1 v-if="useTuichu.role === 'normal'">你好,首页</h1>
-  <h1 v-else>你好,{{ useTuichu.studentName }}</h1>
+  <h1 v-else-if="useTuichu.role !== 'normal' && useTuichu.role !== 'admin'">
+    你好,{{ useTuichu.studentName }}
+  </h1>
   <el-button v-loading.fullscreen.lock="fullscreenLoading" @click="getStudentList()"
     >刷新</el-button
   >
@@ -19,6 +21,8 @@
   <el-button v-loading.fullscreen.lock="fullscreenLoading" @click="user" type="info" plain
     >搜索</el-button
   >
+  <span v-if="useTuichu.role !== 'admin'" style="margin: 50px">你的班级</span>
+  <span v-if="useTuichu.role === 'admin'" style="margin: 50px">你有权限操作所有学生</span>
   <div class="app">
     <el-table v-loading="fullscreenLoading" :data="tableData">
       <el-table-column label="学生ID" prop="id"></el-table-column>
@@ -27,10 +31,25 @@
       <el-table-column label="性别" prop="gender"></el-table-column>
       <el-table-column label="年级班级" prop="classroom"></el-table-column>
       <el-table-column label="学号" prop="student_no"></el-table-column>
-      <el-table-column label="操作">
+      <el-table-column
+        v-if="useTuichu.role === 'admin' || useTuichu.role === 'normal'"
+        label="操作"
+      >
         <template #default="{ row }">
-          <el-button @click="onEdif(row)" type="primary" :icon="Edit" circle />
-          <el-button @click="onOpnm(row)" type="danger" :icon="Delete" circle />
+          <el-button
+            v-if="useTuichu.role === 'admin' || useTuichu.role === 'normal'"
+            @click="onEdif(row)"
+            type="primary"
+            :icon="Edit"
+            circle
+          />
+          <el-button
+            v-if="useTuichu.role === 'admin' || useTuichu.role === 'normal'"
+            @click="onOpnm(row)"
+            type="danger"
+            :icon="Delete"
+            circle
+          />
         </template>
       </el-table-column>
     </el-table>

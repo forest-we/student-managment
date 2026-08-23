@@ -28,7 +28,7 @@ const from = ref({
 const logIn = async () => {
   try {
     if (!from.value.password || !from.value.student_no) {
-      ElMessage.error('学号或密码为空')
+      return ElMessage.error('学号或密码为空')
     }
     await userStore.studentlogin(from.value)
     if (userStore.studentCode === 200) {

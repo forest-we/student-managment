@@ -44,11 +44,11 @@ const userr = async () => {
   })
   try {
     if (!form.value.username || !form.value.password) {
-      erro.value = '账号密码都是空的,你乱按什么?'
+      return (erro.value = '账号密码都是空的,你乱按什么?')
     }
     await userStore.login(form.value)
     if (userStore.userCode === 400) {
-      erro.value = '账号密码有问题,让你乱输入'
+      return (erro.value = '账号密码有问题,让你乱输入')
     }
     if (userStore.userCode === 200) {
       ElMessage({
