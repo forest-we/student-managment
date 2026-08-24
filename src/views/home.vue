@@ -80,11 +80,12 @@ import xiugai from './xiugai.vue'
 import { ElPagination } from 'element-plus'
 import Shanchu from './shanchu.vue'
 import { ElMessage } from 'element-plus'
-import { ElLoading } from 'element-plus'
+
 const useTuichu = useUserStore()
 const editRef = ref<any>(null)
 const edit = ref<any>(null)
 const edon = ref<any>(null)
+
 const users = ref<any[]>([])
 
 //const student = async () => {
@@ -127,7 +128,7 @@ const user = async () => {
   fullscreenLoading.value = true
   try {
     const res = await studentas.post(
-      '/search',
+      'admin/search',
       { name: input3.value },
       {
         params: {

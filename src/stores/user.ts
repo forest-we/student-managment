@@ -7,6 +7,8 @@ export const useUserStore = defineStore('user', () => {
   const role = ref(localStorage.getItem('role') || '')
   const userCode = ref({})
   const userID = ref(localStorage.getItem('userID') || '')
+  const userName = ref(localStorage.getItem('userName') || '')
+
   const login = async (form: { username: string; password: string }) => {
     const res = await student.post('api/login', form)
     userInfo.value = res.data.data
@@ -14,9 +16,11 @@ export const useUserStore = defineStore('user', () => {
     role.value = res.data.data.role
     token.value = res.data.token
     userID.value = res.data.data.id
+    userName.value = res.data.data.username
     localStorage.setItem('token', token.value)
     localStorage.setItem('role', role.value)
     localStorage.setItem('userID', String(userID.value))
+    localStorage.setItem('userName', userName.value)
   }
 
   const logout = () => {
@@ -26,13 +30,15 @@ export const useUserStore = defineStore('user', () => {
     token.value = ''
     role.value = ''
     studentToken.value = ''
+    localStorage.removeItem('userName')
     localStorage.removeItem('token')
     localStorage.removeItem('role')
     localStorage.removeItem('userID')
+
     localStorage.removeItem('studentToken')
     window.location.href = '/login'
   }
-  const studentName = ref('')
+  const studentName = ref(localStorage.getItem('studentName') || '')
   const student_No = ref('')
   const studentCode = ref()
   const studentToken = ref(localStorage.getItem('studentToken') || '')
@@ -43,8 +49,10 @@ export const useUserStore = defineStore('user', () => {
     studentToken.value = res.data.token
     studentCode.value = res.data.code
     localStorage.setItem('studentToken', studentToken.value)
+    localStorage.setItem('studentName', studentName.value)
   }
   return {
+    userName,
     studentCode,
     studentlogin,
     studentName,

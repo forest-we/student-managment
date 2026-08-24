@@ -5,7 +5,7 @@ import course from '@/views/course.vue'
 import register from '@/views/register.vue'
 import shujutongji from '@/views/shujutongji.vue'
 import studentLogin from '@/views/studentLogin.vue'
-
+import user from '@/views/user.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -42,6 +42,11 @@ const router = createRouter({
       component: studentLogin,
       meta: { showNav: false },
     },
+    {
+      path: '/user',
+      name: '个人主页',
+      component: user,
+    },
   ],
 })
 router.beforeEach((to, from, next) => {
@@ -64,7 +69,9 @@ router.beforeEach((to, from, next) => {
   if (to.path === '/shujutongji' && role !== 'admin') {
     return next('/')
   }
-
+  //if ((to.path === '/user' && !token) || !studentToken) {
+  //return next('/login')
+  //}
   next()
 })
 export default router

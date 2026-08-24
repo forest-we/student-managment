@@ -30,9 +30,13 @@ student.interceptors.response.use(
       ElMessage.error('网络异常,等待互联网连接')
     }
     if (error.response?.status === 401) {
-      const userStore = useUserStore()
-      userStore.logout()
-      window.location.href = '/login'
+      // 已经在登录/注册/学生登录页时不再跳转,避免整页刷新死循环
+      ElMessage.error(error.response.data.message)
+      const publicPages = ['/login', '/register', '/studentLogin']
+      if (!publicPages.includes(window.location.pathname)) {
+        const userStore = useUserStore()
+        userStore.logout()
+      }
     }
     if (error.response?.status === 500) {
       ElMessage.error('服务器出了问题')
