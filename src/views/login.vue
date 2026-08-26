@@ -1,26 +1,28 @@
 <template>
-  <div>
-    <h1>教师登录</h1>
-  </div>
-  <div>
-    <p>账号</p>
-    <input type="text" placeholder="账号" v-model="form.username" />
+  <div class="qq">
     <div>
-      <p style="color: brown">{{ erro }}</p>
+      <h1>教师登录</h1>
     </div>
-  </div>
-  <div>
-    <p>密码</p>
-    <input type="password" placeholder="密码" v-model="form.password" />
-  </div>
-  <div>
-    <el-button v-loading.fullscreen.lock="" @click="userr">登录</el-button>
-  </div>
-  <div>
-    <el-button @click="register" type="primary" plain>成为教师</el-button>
-  </div>
-  <div>
-    <el-button @click="studentL" type="primary" plain>学生登录</el-button>
+    <div>
+      <p>账号</p>
+      <input type="text" placeholder="账号" v-model="form.username" />
+      <div>
+        <p style="color: brown">{{ erro }}</p>
+      </div>
+    </div>
+    <div>
+      <p>密码</p>
+      <input type="password" placeholder="密码" v-model="form.password" />
+    </div>
+    <div>
+      <el-button v-loading.fullscreen.lock="" @click="userr">登录</el-button>
+    </div>
+    <div>
+      <el-button @click="register" type="primary" plain>成为教师</el-button>
+    </div>
+    <div>
+      <el-button @click="studentL" type="primary" plain>学生登录</el-button>
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
@@ -44,6 +46,7 @@ const userr = async () => {
   })
   try {
     if (!form.value.username || !form.value.password) {
+      ElMessage.error('输入框为空')
       return (erro.value = '账号密码都是空的,你乱按什么?')
     }
     await userStore.login(form.value)
@@ -60,9 +63,8 @@ const userr = async () => {
       })
       router.push('/')
     }
-  } catch (err) {
-    ElMessage.error('哇哦,兄弟好像出了点问题')
-    console.log(err)
+  } catch (err: any) {
+    console.log(err.message)
   } finally {
     loading.close()
   }
@@ -78,4 +80,8 @@ const studentL = () => {
   router.push('/studentLogin')
 }
 </script>
-<style></style>
+<style>
+.qq {
+  text-align: center;
+}
+</style>

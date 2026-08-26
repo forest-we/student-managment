@@ -20,6 +20,12 @@
       <el-form-item label="年级班级" prop="class">
         <el-input v-model="ruleForm.classroom" />
       </el-form-item>
+      <el-form-item label="学号" prop="student_no">
+        <el-input v-model="ruleForm.student_no" />
+      </el-form-item>
+      <el-form-item label="密码" prop="password">
+        <el-input v-model="ruleForm.password" />
+      </el-form-item>
     </el-form>
     <template #footer>
       <el-button @click="onkil = false">取消</el-button>
@@ -53,10 +59,13 @@ const ruleForm = ref({
   age: '',
   gender: '',
   classroom: '',
+  student_no: '',
+  password: '',
 })
 if (userStore.role === 'admin') {
   ruleForm.value.classroom = '管理员测试数据'
 }
+
 const rules = reactive<FormRules<typeof ruleForm>>({
   name: [{ required: true, message: '不好好写学生名是这样的', trigger: 'blur' }],
   gender: [{ required: true, message: '性别有问题', trigger: 'blur' }],
@@ -65,16 +74,25 @@ const rules = reactive<FormRules<typeof ruleForm>>({
     { type: 'number', message: '年龄必须是数字', trigger: 'blur' },
   ],
   classroom: [{ required: true, message: '班级没写', trigger: 'blur' }],
+  student_no: [{ required: true, message: '学号为空', trigger: 'blur' }],
+  password: [{ required: true, message: '密码为空', trigger: 'blur' }],
 })
+
 const appLoading = ref(false)
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate(async (valid) => {
     appLoading.value = true
     try {
+      if (userStore.role !== 'admin' && userStore.role !== 'normal') {
+        ElMessage.error({
+          message: '你没权限调用此接口',
+        })
+        onkil.value = false
+      }
       if (valid) {
         console.log('submit!')
-        const res = await student.post('/student', ruleForm.value)
+        const res = await student.post('admin/student', ruleForm.value)
         if (res.data.code === 200) {
           onkil.value = false
           emli('on-uupp')

@@ -43,7 +43,7 @@ const userStore = useUserStore()
 const dialog = ref(false)
 const loading = ref(false)
 const emit = defineEmits(['on-update'])
-const open = (row: any) => {
+const open = (row: any) => { 
   if (String(userStore.userID) !== String(row.user_id) && userStore.role !== 'admin') {
     dialog.value = false
     ElMessage.error('你要干嘛?这学生是你的吗?')

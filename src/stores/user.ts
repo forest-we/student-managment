@@ -34,7 +34,7 @@ export const useUserStore = defineStore('user', () => {
     localStorage.removeItem('token')
     localStorage.removeItem('role')
     localStorage.removeItem('userID')
-
+    localStorage.removeItem('studentName')
     localStorage.removeItem('studentToken')
     window.location.href = '/login'
   }
