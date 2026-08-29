@@ -23,6 +23,9 @@
       <el-form-item label="学号" prop="student_no">
         <el-input v-model="ruleForm.student_no"></el-input>
       </el-form-item>
+      <el-form-item v-if="userStore.role === 'admin'" label="所属用户id" prop="user_id">
+        <el-input v-model="ruleForm.user_id"></el-input>
+      </el-form-item>
     </el-form>
     <template #footer>
       <el-button @click="dialog = false">取消</el-button>
@@ -43,7 +46,7 @@ const userStore = useUserStore()
 const dialog = ref(false)
 const loading = ref(false)
 const emit = defineEmits(['on-update'])
-const open = (row: any) => { 
+const open = (row: any) => {
   if (String(userStore.userID) !== String(row.user_id) && userStore.role !== 'admin') {
     dialog.value = false
     ElMessage.error('你要干嘛?这学生是你的吗?')
@@ -56,6 +59,7 @@ const open = (row: any) => {
   ruleForm.value.id = row.id
   ruleForm.value.classroom = row.classroom
   ruleForm.value.student_no = row.student_no
+  ruleForm.value.user_id = row.user_id
 }
 
 defineExpose({ open })
@@ -69,6 +73,7 @@ const ruleForm = ref({
   id: '',
   classroom: '',
   student_no: '',
+  user_id: '',
 })
 
 const rules = ref<FormRules<typeof ruleForm>>({
@@ -80,6 +85,7 @@ const rules = ref<FormRules<typeof ruleForm>>({
   ],
   classroom: [{ required: true, message: '请输入班级', trigger: 'blur' }],
   student_no: [{ required: true, message: '输入学号', trigger: 'blur' }],
+  user_id: [{ required: true, message: '输入所属用户id', trigger: 'blur' }],
 })
 
 const submitForm = async (formEl: FormInstance | undefined) => {

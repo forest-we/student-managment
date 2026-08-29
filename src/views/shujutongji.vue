@@ -2,7 +2,7 @@
   <div class="aa">
     <div ref="asd" class="ww"></div>
     <div ref="gender" class="ww"></div>
-    <div class="ww">占位</div>
+    <div ref="tt" class="ww">占位</div>
   </div>
   <div>
     <div class="qq" ref="age">占位</div>
@@ -15,11 +15,11 @@ import student from '../utils/admin'
 import { computed, onMounted, ref, onBeforeUnmount } from 'vue'
 
 const asd = ref<any>(null)
-const mysss = <any>null
+
 const gender = ref<any>(null)
-const genders = <any>null
-const age = ref<any>(null)
-const ages = <any>null
+
+const tt = ref<any>(null)
+
 onMounted(async () => {
   const res = await student.get('student/statistics')
   console.log(res.data)
@@ -79,35 +79,36 @@ onMounted(async () => {
       },
     ],
   }
-  const ages = echarts.init(age.value)
-  const ageOption = {
+  const ages = echarts.init(tt.value)
+  const avgOption = {
+    tooltip: {
+      trigger: 'axis',
+    },
+    title: {
+      text: '学生平均年龄',
+      left: 'center',
+    },
     xAxis: {
       type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      data: ['age'],
     },
     yAxis: {
       type: 'value',
     },
     series: [
       {
-        data: [150, 230, 224, 218, 135, 147, 260],
-        type: 'line',
+        data: [res.data.avg],
+        type: 'bar',
       },
     ],
   }
-  ages.setOption(ageOption)
+
+  ages.setOption(avgOption)
   genders.setOption(genderOption)
   mysss.setOption(option)
 })
 
-onBeforeUnmount(() => {
-  if (mysss) {
-    mysss.dispose()
-  }
-  if (genders) {
-    genders.dispose()
-  }
-})
+onBeforeUnmount(() => {})
 </script>
 
 <style>

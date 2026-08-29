@@ -56,9 +56,15 @@ const userr = async () => {
     if (userStore.userCode === 400) {
       return (erro.value = '账号密码有问题,让你乱输入')
     }
-    if (userStore.userCode === 200) {
+    if (userStore.userCode === 200 && userStore.role === 'admin') {
       ElMessage({
-        message: '欢迎你,' + userStore.userInfo.username,
+        message: '欢迎你,' + userStore.userInfo.username + '管理员',
+        type: 'success',
+      })
+      router.push('/shujutongji')
+    } else {
+      ElMessage({
+        message: '欢迎您,' + userStore.userInfo.username,
         type: 'success',
       })
       router.push('/')

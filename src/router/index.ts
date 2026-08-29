@@ -6,6 +6,9 @@ import register from '@/views/register.vue'
 import shujutongji from '@/views/shujutongji.vue'
 import studentLogin from '@/views/studentLogin.vue'
 import user from '@/views/user.vue'
+import userxiugai from '@/views/userxiugai.vue'
+import userhome from '@/views/userhome.vue'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -47,6 +50,16 @@ const router = createRouter({
       name: '个人主页',
       component: user,
     },
+    {
+      path: '/userxiugai',
+      name: '修改密码',
+      component: userxiugai,
+    },
+    {
+      path: '/userhome',
+      name: '用户管理',
+      component: userhome,
+    },
   ],
 })
 router.beforeEach((to, from, next) => {
@@ -67,6 +80,9 @@ router.beforeEach((to, from, next) => {
 
   // 3. 需要 admin 权限的页面
   if (to.path === '/shujutongji' && role !== 'admin') {
+    return next('/')
+  }
+  if (to.path === '/userhome' && role !== 'admin') {
     return next('/')
   }
   //if ((to.path === '/user' && !token) || !studentToken) {

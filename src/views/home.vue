@@ -36,6 +36,7 @@
       <el-table-column label="性别" prop="gender"></el-table-column>
       <el-table-column label="年级班级" prop="classroom"></el-table-column>
       <el-table-column label="学号" prop="student_no"></el-table-column>
+      <el-table-column label="所属用户id" prop="user_id"></el-table-column>
       <el-table-column
         v-if="useTuichu.role === 'admin' || useTuichu.role === 'normal'"
         label="操作"
@@ -65,17 +66,11 @@
   <shanchu ref="edit" @on-upda="getStudentList()" />
   <xinzeng ref="edon" @on-uupp="getStudentList()" />
 
-  <el-pagination
-    background
-    layout="prev, pager, next"
-    :total="total"
-    v-model:current-page="page"
-    :page-size="limin"
-    @current-change="changePage"
-  />
+  <pagination :page="page" :limit="limit" :total="total" @pageChange="handlePageChange" />
 </template>
 
 <script lang="ts" setup>
+import pagination from './compnents/pagination.vue'
 import { Check, Delete, Edit, Message, Search, Star } from '@element-plus/icons-vue'
 import { computed, onMounted, ref, watch } from 'vue'
 import studentas from '../utils/admin'
@@ -90,9 +85,13 @@ const useTuichu = useUserStore()
 const editRef = ref<any>(null)
 const edit = ref<any>(null)
 const edon = ref<any>(null)
-
-const users = ref<any[]>([])
-
+const asdf = ref<any>(null)
+//Vue 的自定义事件（defineEmits）机制：子组件不直接改父组件的数据，而是"喊一声"，让父组件自己处理。好处是组件解耦——分页组件只负责"报告页码变化"，至于换页后是拉数据还是别的操作，由父组件决定。
+//props是子组件接收的数据声明
+const handlePageChange = (newPage: any) => {
+  page.value = newPage
+  getStudentList()
+}
 //const student = async () => {
 //try {
 //const res = await studentas.get('/student')
@@ -138,7 +137,7 @@ const user = async () => {
       {
         params: {
           page: page.value,
-          limin: limin.value,
+          limin: limit.value,
         },
       },
     )
@@ -151,7 +150,7 @@ const user = async () => {
   }
 }
 const page = ref(1)
-const limin = ref(5)
+const limit = ref(5)
 const tableData = ref([])
 const total = ref(0)
 const fullscreenLoading = ref(false)
@@ -161,7 +160,7 @@ const getStudentList = async () => {
     const res = await studentas.get('admin/paging', {
       params: {
         page: page.value,
-        limin: limin.value,
+        limin: limit.value,
       },
     })
     console.log(res.data)
@@ -178,10 +177,6 @@ const getStudentList = async () => {
 setTimeout(() => {
   fullscreenLoading.value = false
 }, 2000)
-const changePage = (newPage: any) => {
-  page.value = newPage
-  getStudentList()
-}
 
 onMounted(() => {
   getStudentList()

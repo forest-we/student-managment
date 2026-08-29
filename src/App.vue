@@ -12,14 +12,14 @@
       <el-menu-item>查看课程</el-menu-item>
     </el-sub-menu>
     <el-sub-menu v-if="userStore.role === 'admin'" index="1">
-      <template #title>学生数据</template>
+      <template #title>数据</template>
       <el-menu-item index="/shujutongji" v-if="userStore.role === 'admin'">学生统计</el-menu-item>
-      <el-menu-item>用户统计</el-menu-item>
+      <el-menu-item index="userhome">用户统计</el-menu-item>
     </el-sub-menu>
     <el-sub-menu index="2">
       <template #title>账号</template>
       <el-menu-item @click="userStore.logout">退出登录</el-menu-item>
-      <el-menu-item>修改密码</el-menu-item>
+      <el-menu-item index="/userxiugai">修改密码</el-menu-item>
       <el-menu-item index="/user">个人信息</el-menu-item>
     </el-sub-menu>
   </el-menu>
@@ -47,6 +47,7 @@ const getup = async () => {
     // 头像加载失败就显示默认图标
   }
 }
+
 onMounted(() => {
   getup()
 })
