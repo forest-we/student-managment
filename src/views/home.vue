@@ -70,15 +70,15 @@
 </template>
 
 <script lang="ts" setup>
-import pagination from './compnents/pagination.vue'
+import pagination from './components/pagination.vue'
 import { Check, Delete, Edit, Message, Search, Star } from '@element-plus/icons-vue'
 import { computed, onMounted, ref, watch } from 'vue'
 import studentas from '../utils/admin'
 import xinzeng from './student-add.vue'
 import { useUserStore } from '@/stores/user'
-import xiugai from './xiugai.vue'
+import xiugai from './student-put.vue'
 import { ElPagination } from 'element-plus'
-import Shanchu from './shanchu.vue'
+import Shanchu from '@/views/student-delete.vue'
 import { ElMessage } from 'element-plus'
 
 const useTuichu = useUserStore()

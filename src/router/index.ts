@@ -3,10 +3,10 @@ import login from '@/views/login.vue'
 import home from '@/views/home.vue'
 import course from '@/views/course.vue'
 import register from '@/views/register.vue'
-import shujutongji from '@/views/shujutongji.vue'
+import statistics from '@/views/admin-data-statistics.vue'
 import studentLogin from '@/views/student-Login.vue'
 import user from '@/views/user.vue'
-import userxiugai from '@/views/userxiugai.vue'
+import userAdd from '@/views/user-Add.vue'
 import userhome from '@/views/userhome.vue'
 
 const router = createRouter({
@@ -37,7 +37,7 @@ const router = createRouter({
     {
       path: '/shujutongji',
       name: '数据统计',
-      component: shujutongji,
+      component: statistics,
     },
     {
       path: '/studentLogin',
@@ -53,7 +53,7 @@ const router = createRouter({
     {
       path: '/userxiugai',
       name: '修改密码',
-      component: userxiugai,
+      component: userAdd,
     },
     {
       path: '/userhome',

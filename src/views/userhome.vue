@@ -48,11 +48,11 @@
 </template>
 
 <script setup lang="ts">
-import pagination from '@/views/compnents/pagination.vue'
+import pagination from '@/views/components/pagination.vue'
 import { onMounted, ref } from 'vue'
 import user from '@/utils/admin'
-import add from './compnents/add.vue'
-import put from './compnents/put.vue'
+import add from './components/add.vue'
+import put from './components/put.vue'
 import { Delete, Edit, InfoFilled } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 const handlePageChange = (newPage: number) => {
@@ -77,7 +77,7 @@ const handleSubmit = async (form: { username: string; password: string }) => {
   fullscreenLoading.value = true
   try {
     const res = await user.post('admin/user', form)
-  
+
     if (res.data.code === 200) {
       ElMessage({ message: '新增用户成功', type: 'success' })
       aDD.value.closeDialog() // 关弹窗 调用子组件暴露的可调用函数 + 重置表单

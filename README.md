@@ -14,10 +14,10 @@
 
 ## 🛠️ 技术栈
 
-| 端 | 技术 |
-| --- | --- |
+| 端   | 技术                                                                            |
+| ---- | ------------------------------------------------------------------------------- |
 | 前端 | Vue 3 · Vite · TypeScript · Pinia · Vue Router · Element Plus · ECharts · Axios |
-| 后端 | Node.js · Express · MySQL (mysql2) · JWT (express-jwt) · Multer · Winston |
+| 后端 | Node.js · Express · MySQL (mysql2) · JWT (express-jwt) · Multer · Winston       |
 
 ## 📁 项目结构
 
@@ -88,33 +88,31 @@ npm run build
 npm run type-check
 ```
 
-## 🔌 接口约定
+接口约定
 
 后端接口前缀 `http://localhost:4300/`（前端配置在 [src/utils/admin.ts](src/utils/admin.ts)）。
 
-| 接口 | 说明 | 权限 |
-| --- | --- | --- |
-| `POST api/login` | 用户登录 | 公开 |
-| `POST api/register` | 用户注册 | 公开 |
-| `POST api/student/login` | 学生登录 | 公开 |
-| `GET admin/paging` | 学生列表(分页) | 教师 |
-| `POST admin/search` | 按姓名搜索学生 | 教师 |
-| `POST admin/student` | 新增学生 | 教师 |
-| `PUT admin/student/:id` | 修改学生 | 教师 |
-| `DELETE admin/student/:id` | 删除学生 | 教师 |
-| `GET admin/user` | 用户列表(分页) | 管理员 |
-| `POST admin/user` | 新增用户 | 管理员 |
-| `PUT admin/user/:id` | 修改用户 | 管理员 |
-| `DELETE admin/user/:id` | 删除用户 | 管理员 |
-| `GET student/statistics` | 统计数据(图表) | 教师 |
-| `POST upload` | 上传头像 | 登录用户 |
-| `GET upload` | 获取头像 | 登录用户 |
+| 接口                       | 说明           | 权限     |
+| -------------------------- | -------------- | -------- |
+| `POST api/login`           | 用户登录       | 公开     |
+| `POST api/register`        | 用户注册       | 公开     |
+| `POST api/student/login`   | 学生登录       | 公开     |
+| `GET admin/paging`         | 学生列表(分页) | 教师     |
+| `POST admin/search`        | 按姓名搜索学生 | 教师     |
+| `POST admin/student`       | 新增学生       | 教师     |
+| `PUT admin/student/:id`    | 修改学生       | 教师     |
+| `DELETE admin/student/:id` | 删除学生       | 教师     |
+| `GET admin/user`           | 用户列表(分页) | 管理员   |
+| `POST admin/user`          | 新增用户       | 管理员   |
+| `PUT admin/user/:id`       | 修改用户       | 管理员   |
+| `DELETE admin/user/:id`    | 删除用户       | 管理员   |
+| `GET student/statistics`   | 统计数据(图表) | 教师     |
+| `POST upload`              | 上传头像       | 登录用户 |
+| `GET upload`               | 获取头像       | 登录用户 |
 
-## 📐 设计说明
+设计说明
 
 - **学生数据隔离**：学生记录通过 `user_id` 字段归属某个用户，该学生即属于对应的用户/管理员管理。
 - **权限分层**：`/admin/*` 接口需 JWT + 管理员角色；普通教师只能操作自己 `user_id` 下的学生。
 
-## 📜 License
-
-待补充
+如果头像没渲染可尝试刷新浏览器
