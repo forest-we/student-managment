@@ -4,7 +4,8 @@
   "description": "学生管理系统后端服务 (Express + MySQL)",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "node --watch server.js"
   },
   "keywords": [],
   "author": "",
