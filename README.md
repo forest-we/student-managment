@@ -2,7 +2,7 @@
 
 学生管理系统（前端 Vue 3 + 后端 Express/MySQL 一体化仓库），包含管理员 / 教师 / 学生三种视角：学生信息管理、用户管理、数据可视化。
 
-## ✨ 功能特性
+ 功能特性
 
 - **教师端登录 / 注册**：账号密码登录，支持管理员（admin）与普通教师（normal）两种角色
 - **学生端登录**：学号 + 密码独立登录，学生身份与教师身份分离（独立 token）
@@ -12,14 +12,14 @@
 - **头像功能**：上传 / 展示用户头像
 - **权限控制**：路由守卫 + JWT 拦截器 + 角色判断，未登录自动跳转登录页
 
-## 🛠️ 技术栈
+技术栈
 
 | 端 | 技术 |
 | --- | --- |
 | 前端 | Vue 3 · Vite · TypeScript · Pinia · Vue Router · Element Plus · ECharts · Axios |
 | 后端 | Node.js · Express · MySQL (mysql2) · JWT (express-jwt) · Multer · Winston |
 
-## 📁 项目结构
+项目结构
 
 ```
 hello_vue/
@@ -38,7 +38,7 @@ hello_vue/
     └── public/             # 旧版静态页面
 ```
 
-## 🚀 快速开始
+ 快速开始
 
 ### 环境要求
 
@@ -88,7 +88,7 @@ npm run build
 npm run type-check
 ```
 
-## 🔌 接口约定
+
 
 后端接口前缀 `http://localhost:4300/`（前端配置在 [src/utils/admin.ts](src/utils/admin.ts)）。
 
@@ -110,11 +110,8 @@ npm run type-check
 | `POST upload` | 上传头像 | 登录用户 |
 | `GET upload` | 获取头像 | 登录用户 |
 
-## 📐 设计说明
+
 
 - **学生数据隔离**：学生记录通过 `user_id` 字段归属某个用户，该学生即属于对应的用户/管理员管理。
 - **权限分层**：`/admin/*` 接口需 JWT + 管理员角色；普通教师只能操作自己 `user_id` 下的学生。
 
-## 📜 License
-
-待补充
