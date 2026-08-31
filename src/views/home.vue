@@ -77,10 +77,10 @@ import studentas from '../utils/admin'
 import xinzeng from './student-add.vue'
 import { useUserStore } from '@/stores/user'
 import xiugai from './student-put.vue'
-import { ElPagination } from 'element-plus'
+import usePagination from '@/composable/usePagination.ts'
 import Shanchu from '@/views/student-delete.vue'
 import { ElMessage } from 'element-plus'
-
+const { page, limit, total } = usePagination()
 const useTuichu = useUserStore()
 const editRef = ref<any>(null)
 const edit = ref<any>(null)
@@ -149,10 +149,9 @@ const user = async () => {
     fullscreenLoading.value = false
   }
 }
-const page = ref(1)
-const limit = ref(5)
+
 const tableData = ref([])
-const total = ref(0)
+
 const fullscreenLoading = ref(false)
 const getStudentList = async () => {
   fullscreenLoading.value = true

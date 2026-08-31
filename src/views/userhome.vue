@@ -55,13 +55,13 @@ import add from './components/add.vue'
 import put from './components/put.vue'
 import { Delete, Edit, InfoFilled } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
+import usePagination from '@/composable/usePagination.ts'
+const { page, limit, total } = usePagination()
 const handlePageChange = (newPage: number) => {
   page.value = newPage
   userData()
 }
-const page = ref(1)
-const limit = ref(10)
-const total = ref(0)
+
 const users = ref([])
 const aDD = ref<any>(null)
 const Put = ref<any>(null)

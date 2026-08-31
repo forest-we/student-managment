@@ -19,7 +19,7 @@
     <el-sub-menu index="2">
       <template #title>账号</template>
       <el-menu-item @click="userStore.logout">退出登录</el-menu-item>
-      <el-menu-item index="/userxiugai">修改密码</el-menu-item>
+      <el-menu-item index="/user">修改密码</el-menu-item>
       <el-menu-item index="/user">个人信息</el-menu-item>
     </el-sub-menu>
   </el-menu>
